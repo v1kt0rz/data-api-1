@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring
 
 import sys
-import urllib.parse
+#import urllib.parse
 import requests
 
 BASE_URI = "https://weather.lewagon.com"
@@ -47,7 +47,8 @@ def weather_forecast(lat, lon):
 
     response = requests.get(url).json()
 
-    ### the structure is dict "list" within the first dict of the response containing 40 entries (24/3*5)
+    ### the structure is dict "list" within the first dict of the response containing
+    # 40 entries (24/3*5)
     #so entry 0,9,17,25,33 should be separate days
     #date is in variable dt-txt in list[i] dict so response[list][i][dt-txt]
     forecast = response["list"][slice(0,34,8)]
@@ -64,11 +65,11 @@ def main():
         query = input("City?\n")
     forecast = weather_forecast(city["lat"], city["lon"])
     print(f"Here's the weather in {city['name'].capitalize()}")
-    for el in forecast:
+    for entry in forecast:
         #extract all variables from forecast for the day
-        day = el["dt_txt"][0:10]
-        desc = el["weather"][0]["description"]
-        temp = el["main"]["temp"]
+        day = entry["dt_txt"][0:10]
+        desc = entry["weather"][0]["description"]
+        temp = entry["main"]["temp"]
 
         print(day + " " + str(desc).capitalize() + " " + str(temp).capitalize())
     #pass  # YOUR CODE HERE
