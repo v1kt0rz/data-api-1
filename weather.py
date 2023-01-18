@@ -19,8 +19,20 @@ def search_city(query):
 
     response = requests.get(url).json()
 
-    if response[0]["name"] == query:
-        return response[0]
+    if len(response) > 1:
+        lst_of_cities = []
+        lst_of_countries = []
+        for city in response:
+            lst_of_cities.append(city["name"])
+            lst_of_countries.append(city["country"])
+        #print(lst_of_cities)
+        #print(lst_of_countries)
+        cit_country = zip(lst_of_cities, lst_of_countries)
+        #print(cit_country)
+        for index, pair in enumerate(cit_country):
+            print(f"{index+1}. {','.join(pair)}")
+        selection = int(input("Multiple cities found, which city did you mean?\n"))
+        return response[selection-1]
     return None
 
 def weather_forecast(lat, lon):
